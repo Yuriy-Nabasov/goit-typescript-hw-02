@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Section from "../Section/Section";
 import Container from "../Container/Container";
 import Heading from "../Heading/Heading";
@@ -15,49 +15,87 @@ import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import Modal from "react-modal";
 import ImageModal from "../ImageModal/ImageModal";
 
+// Типи для стану
+interface Article {
+  id: string;
+  urls: {
+    regular: string;
+  };
+  alt_description: string;
+}
+
+interface AppState {
+  articles: Article[];
+  isLoading: boolean;
+  error: boolean;
+  searchTerm: string;
+  page: number;
+  modalIsOpen: boolean;
+  selectedImage: string;
+  selectedImageTitle: string;
+}
+
+// Типи для пропсів
+interface SearchBarProps {
+  onSearch: (topic: string) => void;
+}
+
+interface ImageGalleryProps {
+  items: Article[];
+  openModal: (imageUrl: string, imageTitle: string) => void;
+}
+
+interface LoadMoreBtnProps {
+  onClick: () => void;
+  disabled: boolean;
+}
+
+interface ImageModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  imageUrl: string;
+  imageTitle: string;
+}
+
 Modal.setAppElement("#root");
 
-export default function App() {
-  const [articles, setArticles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(``);
-  const [page, setPage] = useState(1);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
-  const [selectedImageTitle, setSelectedImageTitle] = useState("");
+const App: React.FC = () => {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>(``);
+  const [page, setPage] = useState<number>(1);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [selectedImageTitle, setSelectedImageTitle] = useState<string>("");
 
-  const handleSearch = (topic) => {
+  const handleSearch = (topic: string): void => {
     setSearchTerm(`${topic}/${Date.now()}`);
     setPage(1);
     setArticles([]);
-    // if (topic === ``) {
-    //   toast.error("Please enter keyword!");
-    // }
   };
 
   useEffect(() => {
     if (searchTerm === ``) {
       return;
     }
-    async function getData() {
+    // async function getData() {
+    const getData = async () => {
       try {
         setIsLoading(true);
         setError(false);
         const data = await fetchArticles(searchTerm.split(`/`)[0], page);
-        setArticles((prevArticles) => {
-          return [...prevArticles, ...data];
-        });
+        setArticles((prevArticles) => [...prevArticles, ...data]);
       } catch {
         setError(true);
       } finally {
         setIsLoading(false);
       }
-    }
+    };
     getData();
   }, [searchTerm, page]);
 
-  const openModal = (imageUrl, imageTitle) => {
+  const openModal = (imageUrl: string, imageTitle: string): void => {
     if (!modalIsOpen) {
       setSelectedImage(imageUrl);
       setSelectedImageTitle(imageTitle);
@@ -65,7 +103,7 @@ export default function App() {
     }
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setModalIsOpen(false);
     setSelectedImage("");
     setSelectedImageTitle("");
@@ -74,7 +112,11 @@ export default function App() {
   return (
     <Section>
       <Container>
-        <Heading title="Search for images from Unsplash" bottom tag={`h1`} />
+        <Heading
+          title="Search for images from Unsplash using TypeScript"
+          bottom
+          tag={`h1`}
+        />
         <SearchBar onSearch={handleSearch} />
         {error && <ErrorMassage />}
         {articles.length > 0 && (
@@ -96,4 +138,6 @@ export default function App() {
       </Container>
     </Section>
   );
-}
+};
+
+export default App;
