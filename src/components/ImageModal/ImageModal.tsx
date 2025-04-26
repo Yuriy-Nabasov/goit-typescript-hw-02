@@ -1,14 +1,22 @@
+import React from "react";
 import Modal from "react-modal";
 import css from "./ImageModal.module.css";
 
-Modal.setAppElement("#root");
+// Modal.setAppElement("#root");
 
-export default function ImageModal({
+interface ImageModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  imageUrl: string;
+  imageTitle: string;
+}
+
+const ImageModal: React.FC<ImageModalProps> = ({
   isOpen,
   onRequestClose,
   imageUrl,
   imageTitle,
-}) {
+}) => {
   if (!imageUrl) {
     return null;
   }
@@ -23,11 +31,12 @@ export default function ImageModal({
       <img src={imageUrl} alt={imageTitle} className={css.image} />
       <div className={css.imageTitle}>
         {imageTitle}
-
         <button className={css.btn} onClick={onRequestClose}>
           X
         </button>
       </div>
     </Modal>
   );
-}
+};
+
+export default ImageModal;

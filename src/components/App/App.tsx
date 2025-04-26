@@ -9,20 +9,12 @@ import { fetchArticles } from "../../articleService";
 import "./App.css";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import Loader from "../Loader/Loader";
-import ErrorMassage from "../ErrorMessage/ErrorMessage";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { Toaster } from "react-hot-toast";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import Modal from "react-modal";
 import ImageModal from "../ImageModal/ImageModal";
-
-// Типи для стану
-interface Article {
-  id: string;
-  urls: {
-    regular: string;
-  };
-  alt_description: string;
-}
+import { Article } from "../../types";
 
 interface AppState {
   articles: Article[];
@@ -35,7 +27,6 @@ interface AppState {
   selectedImageTitle: string;
 }
 
-// Типи для пропсів
 interface SearchBarProps {
   onSearch: (topic: string) => void;
 }
@@ -79,7 +70,6 @@ const App: React.FC = () => {
     if (searchTerm === ``) {
       return;
     }
-    // async function getData() {
     const getData = async () => {
       try {
         setIsLoading(true);
@@ -118,7 +108,7 @@ const App: React.FC = () => {
           tag={`h1`}
         />
         <SearchBar onSearch={handleSearch} />
-        {error && <ErrorMassage />}
+        {error && <ErrorMessage />}
         {articles.length > 0 && (
           <ImageGallery items={articles} openModal={openModal} />
         )}

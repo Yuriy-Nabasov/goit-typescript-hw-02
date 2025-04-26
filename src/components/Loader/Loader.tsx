@@ -1,7 +1,8 @@
+import React from "react";
 import { PulseLoader } from "react-spinners";
 import css from "./Loader.module.css";
 
-export default function Loader() {
+const Loader: React.FC = () => {
   return (
     <div className={css.wrap}>
       <PulseLoader
@@ -11,4 +12,6 @@ export default function Loader() {
       />
     </div>
   );
-}
+};
+
+export default Loader;
