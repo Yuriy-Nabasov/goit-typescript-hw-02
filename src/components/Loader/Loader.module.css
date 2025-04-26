@@ -1,0 +1,6 @@
+.wrap {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}

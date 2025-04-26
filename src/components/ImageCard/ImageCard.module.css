@@ -1,0 +1,20 @@
+.gallery-link {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.img {
+  width: 100%;
+  object-fit: cover;
+  height: 152px;
+}
+
+.gallery-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 16px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+}
