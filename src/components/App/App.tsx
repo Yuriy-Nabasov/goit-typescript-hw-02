@@ -27,27 +27,6 @@ interface AppState {
   selectedImageTitle: string;
 }
 
-interface SearchBarProps {
-  onSearch: (topic: string) => void;
-}
-
-interface ImageGalleryProps {
-  items: Article[];
-  openModal: (imageUrl: string, imageTitle: string) => void;
-}
-
-interface LoadMoreBtnProps {
-  onClick: () => void;
-  disabled: boolean;
-}
-
-interface ImageModalProps {
-  isOpen: boolean;
-  onRequestClose: () => void;
-  imageUrl: string;
-  imageTitle: string;
-}
-
 Modal.setAppElement("#root");
 
 const App: React.FC = () => {
